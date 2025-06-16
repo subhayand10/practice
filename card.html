@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFT Preview Card</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: hsl(217, 54%, 11%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: hsl(215, 51%, 70%);
+            padding: 20px;
+        }
+
+        main {
+            width: 100%;
+            max-width: 350px;
+        }
+
+        .card {
+            background-color: hsl(216, 50%, 16%);
+            border-radius: 15px;
+            padding: 24px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card__images {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 24px;
+            cursor: pointer;
+        }
+
+        .card__images img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .card__images-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: hsla(178, 100%, 50%, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card__images-layer::before {
+            content: url("data:image/svg+xml,%3Csvg width='48' height='48' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath d='m35.12 17.394 8.057 3.834-.22.22-4.255 4.255a7.724 7.724 0 0 1-9.712.025L24.718 21.5a5.273 5.273 0 0 0-7.484.016l-4.97 4.97a5.273 5.273 0 0 1-7.484 0l-4.97-4.97a5.273 5.273 0 0 0-7.484 0L24.718 35a5.273 5.273 0 0 1 0 7.484L11.5 55.702a5.273 5.273 0 0 0 0 7.484l4.97 4.97a5.273 5.273 0 0 1 0 7.484l-4.97 4.97a5.273 5.273 0 0 0 0 7.484l13.218 13.218a5.273 5.273 0 0 1 0 7.484L11.5 119.114a5.273 5.273 0 0 0 0 7.484L24.718 140a5.273 5.273 0 0 1 0 7.484l-4.97 4.97a5.273 5.273 0 0 0 0 7.484l4.97 4.97a5.273 5.273 0 0 1 0 7.484L11.5 183.71a5.273 5.273 0 0 0 0 7.484l13.218 13.218a5.273 5.273 0 0 1 0 7.484L11.5 225.114a5.273 5.273 0 0 0 0 7.484L24.718 246a5.273 5.273 0 0 1 0 7.484l-4.97 4.97a5.273 5.273 0 0 0 0 7.484l4.97 4.97a5.273 5.273 0 0 1 0 7.484L11.5 289.71a5.273 5.273 0 0 0 0 7.484l13.218 13.218a5.273 5.273 0 0 1 0 7.484L11.5 331.114a5.273 5.273 0 0 0 0 7.484L24.718 352'/%3E%3C/g%3E%3C/svg%3E");
+            filter: brightness(0) invert(1);
+        }
+
+        .card__images:hover .card__images-layer {
+            opacity: 1;
+        }
+
+        .card__title {
+            margin-bottom: 16px;
+        }
+
+        .card__title h1 {
+            color: hsl(0, 0%, 100%);
+            font-size: 22px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .card__title h1:hover {
+            color: hsl(178, 100%, 50%);
+        }
+
+        .card__description {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 24px;
+            font-weight: 300;
+        }
+
+        .card__time {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid hsl(215, 32%, 27%);
+        }
+
+        .card__time-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: hsl(178, 100%, 50%);
+            font-weight: 600;
+        }
+
+        .card__time-left::before {
+            content: url("data:image/svg+xml,%3Csvg width='11' height='18' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 10.216 5.5 18 0 10.216l5.5 3.263 5.5-3.262ZM5.5 0l5.496 9.169L5.5 12.43 0 9.17 5.5 0Z' fill='%2300FFF8'/%3E%3C/svg%3E");
+        }
+
+        .card__time-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 400;
+        }
+
+        .card__time-right::before {
+            content: url("data:image/svg+xml,%3Csvg width='17' height='17' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8.305 2.007a6.667 6.667 0 1 0 0 13.334 6.667 6.667 0 0 0 0-13.334Zm2.667 7.334H8.305a.667.667 0 0 1-.667-.667V6.007a.667.667 0 0 1 1.334 0v2h2a.667.667 0 0 1 0 1.334Z' fill='%238BACD9'/%3E%3C/svg%3E");
+        }
+
+        .card__creator {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .card__creator img {
+            width: 33px;
+            height: 33px;
+            border-radius: 50%;
+            border: 1px solid hsl(0, 0%, 100%);
+        }
+
+        .card__creator-text {
+            font-size: 16px;
+            font-weight: 400;
+        }
+
+        .card__creator-text span {
+            color: hsl(0, 0%, 100%);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .card__creator-text span:hover {
+            color: hsl(178, 100%, 50%);
+        }
+
+        footer {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .attribution {
+            font-size: 11px;
+            color: hsl(215, 51%, 70%);
+        }
+
+        .attribution a {
+            color: hsl(178, 100%, 50%);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .attribution a:hover {
+            color: hsl(0, 0%, 100%);
+        }
+
+        @media (max-width: 375px) {
+            .card {
+                padding: 20px;
+            }
+            
+            .card__title h1 {
+                font-size: 20px;
+            }
+            
+            .card__description {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <article class="card">
+            <div class="card__images">
+                <img src="data:image/svg+xml,%3Csvg width='302' height='302' viewBox='0 0 302 302' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3ClinearGradient id='grad1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23ff6b6b;stop-opacity:1' /%3E%3Cstop offset='50%25' style='stop-color:%234ecdc4;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%2345b7d1;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='302' height='302' fill='%23001529'/%3E%3Cg transform='translate(76, 76)'%3E%3Cpath d='M75 0L150 43.3L75 86.6L0 43.3L75 0Z' fill='url(%23grad1)'/%3E%3Cpath d='M75 86.6L150 129.9L75 173.2L0 129.9L75 86.6Z' fill='url(%23grad1)' opacity='0.8'/%3E%3Cpath d='M75 43.3L112.5 21.65L112.5 64.95L75 86.6L37.5 64.95L37.5 21.65L75 43.3Z' fill='%23ff6b6b'/%3E%3C/g%3E%3C/svg%3E" alt="Equilibrium #3429 NFT">
+                <div class="card__images-layer"></div>
+            </div>
+            
+            <div class="card__title">
+                <h1>Equilibrium #3429</h1>
+            </div>
+            
+            <div class="card__description">
+                Our Equilibrium collection promotes balance and calm.
+            </div>
+            
+            <div class="card__time">
+                <div class="card__time-left">
+                    0.041 ETH
+                </div>
+                <div class="card__time-right">
+                    3 days left
+                </div>
+            </div>
+            
+            <div class="card__creator">
+                <img src="data:image/svg+xml,%3Csvg width='33' height='33' viewBox='0 0 33 33' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='16.5' cy='16.5' r='16.5' fill='%234CAF50'/%3E%3Cpath d='M16.5 8.25C12.36 8.25 9 11.61 9 15.75C9 19.89 12.36 23.25 16.5 23.25C20.64 23.25 24 19.89 24 15.75C24 11.61 20.64 8.25 16.5 8.25ZM16.5 12.375C18.045 12.375 19.3125 13.6425 19.3125 15.1875C19.3125 16.7325 18.045 18 16.5 18C14.955 18 13.6875 16.7325 13.6875 15.1875C13.6875 13.6425 14.955 12.375 16.5 12.375ZM16.5 21.45C14.19 21.45 12.1425 20.295 11.0625 18.5625C11.0925 16.7775 14.7 15.8025 16.5 15.8025C18.285 15.8025 21.9075 16.7775 21.9375 18.5625C20.8575 20.295 18.81 21.45 16.5 21.45Z' fill='white'/%3E%3C/svg%3E" alt="Creator Avatar">
+                <div class="card__creator-text">
+                    Creation of <span>Kiran Majcode</span>
+                </div>
+            </div>
+        </article>
+    </main>
+    
+    <footer>
+        <div class="attribution">
+            Challenge by <a href="https://www.crio.do" target="_blank">Crio</a>.
+            Coded by <a href="https://github.com/kiranjolly123" target="_blank">Kiran Majcode</a>.
+        </div>
+    </footer>
+</body>
+</html>
